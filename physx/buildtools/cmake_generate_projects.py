@@ -129,6 +129,8 @@ class CMakePreset:
             return False
         elif self.targetPlatform == 'jni-linux':
             return False
+        elif self.targetPlatform == 'jni-linux-aarch64':
+            return False
         elif self.targetPlatform == 'jni-android':
             return False
         elif self.targetPlatform == 'emscripten':
@@ -189,7 +191,6 @@ class CMakePreset:
                 outString = outString + ' -DCMAKE_MAKE_PROGRAM=' + os.environ['PM_ninja_PATH'] + '/ninja'
             else:
                 outString = outString + '-G \"Unix Makefiles\"'
-
         if self.targetPlatform == 'win64':
             if self.generator != 'ninja':
                 outString = outString + ' -Ax64'
@@ -254,6 +255,19 @@ class CMakePreset:
             outString = outString + ' -DPX_OUTPUT_ARCH=x86'
             outString = outString + ' -DCMAKE_C_COMPILER=clang'
             outString = outString + ' -DCMAKE_CXX_COMPILER=clang++'
+            return outString
+        elif self.targetPlatform == 'jni-linuxAarch64':
+            outString = outString + ' -DTARGET_BUILD_PLATFORM=jni-linux-aarch64'
+            outString = outString + ' -DPX_OUTPUT_ARCH=arm'
+            if self.compiler == 'clang-crosscompile':
+                outString = outString + ' -DCMAKE_TOOLCHAIN_FILE=' + \
+                    cmake_modules_root + '/linux/LinuxCrossToolchain.aarch64-unknown-linux-gnueabihf.cmake'
+                outString = outString + ' -DCMAKE_MAKE_PROGRAM=' + os.environ.get('PM_MinGW_PATH') + '/bin/mingw32-make.exe'
+            elif self.compiler == 'gcc':
+                # TODO: To change so it uses Packman's compiler. Then add it as
+                # host compiler for CUDA above.
+                outString = outString + ' -DCMAKE_TOOLCHAIN_FILE=\"' + \
+                    cmake_modules_root + '/linux/LinuxAarch64.cmake\"'
             return outString
         elif self.targetPlatform == 'jni-android':
             outString = outString + ' -DTARGET_BUILD_PLATFORM=jni-android'
