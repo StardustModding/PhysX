@@ -253,8 +253,15 @@ class CMakePreset:
         elif self.targetPlatform == 'jni-linux':
             outString = outString + ' -DTARGET_BUILD_PLATFORM=jni-linux'
             outString = outString + ' -DPX_OUTPUT_ARCH=x86'
-            outString = outString + ' -DCMAKE_C_COMPILER=clang'
-            outString = outString + ' -DCMAKE_CXX_COMPILER=clang++'
+            if self.compiler == 'clang-crosscompile':
+                outString = outString + ' -DCMAKE_TOOLCHAIN_FILE=' + \
+                    cmake_modules_root + '/linux/LinuxCrossToolchain.x86_64-unknown-linux-gnu.cmake'
+                outString = outString + ' -DCMAKE_MAKE_PROGRAM=' + os.environ.get('PM_MinGW_PATH') + '/bin/mingw32-make.exe'
+            elif self.compiler == 'gcc':
+                # TODO: To change so it uses Packman's compiler. Then add it as
+                # host compiler for CUDA above.
+                outString = outString + ' -DCMAKE_TOOLCHAIN_FILE=\"' + \
+                    cmake_modules_root + '/linux/LinuxX64.cmake\"'
             return outString
         elif self.targetPlatform == 'jni-linuxAarch64':
             outString = outString + ' -DTARGET_BUILD_PLATFORM=jni-linux-aarch64'

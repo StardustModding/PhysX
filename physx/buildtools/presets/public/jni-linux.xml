@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <preset name="jni-linux" comment="Linux clang PhysX JNI wrapper general settings">
-  <platform targetPlatform="jni-linux" compiler="clang" />
+  <platform targetPlatform="jni-linux" compiler="gcc" />
   <CMakeSwitches>
     <cmakeSwitch name="PX_BUILDSNIPPETS" value="False" comment="Generate the snippets" />
     <cmakeSwitch name="PX_BUILDPVDRUNTIME" value="False" comment="Generate the OmniPVD project" />
