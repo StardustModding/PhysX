@@ -129,7 +129,7 @@ class CMakePreset:
             return False
         elif self.targetPlatform == 'jni-linux':
             return False
-        elif self.targetPlatform == 'jni-linux-aarch64':
+        elif self.targetPlatform == 'jni-linuxAarch64':
             return False
         elif self.targetPlatform == 'jni-android':
             return False
@@ -264,7 +264,7 @@ class CMakePreset:
                     cmake_modules_root + '/linux/LinuxX64.cmake\"'
             return outString
         elif self.targetPlatform == 'jni-linuxAarch64':
-            outString = outString + ' -DTARGET_BUILD_PLATFORM=jni-linux-aarch64'
+            outString = outString + ' -DTARGET_BUILD_PLATFORM=jni-linux'
             outString = outString + ' -DPX_OUTPUT_ARCH=arm'
             if self.compiler == 'clang-crosscompile':
                 outString = outString + ' -DCMAKE_TOOLCHAIN_FILE=' + \
